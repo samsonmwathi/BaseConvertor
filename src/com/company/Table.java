@@ -4,7 +4,8 @@ public class Table {
     private final String[] header;
     private final String[][] data;
     private int[] columnLengths;
-    private int tableLength = 1;
+    private int[] cumulativeColumnBounds;
+    private int tableLength;
     private final Alignment alignment;
 
     public Table(String[] header, String[][] data, Alignment alignment){
@@ -18,13 +19,14 @@ public class Table {
         columnLengths = new int[header.length];
         for (int i = 0; i < data[0].length; i++) {
             int maxColumnLength = header[i].length();
-            for (int j = 0; j < data.length; j++) {
-                if(data[j][i].length() > maxColumnLength){
-                    maxColumnLength = data[j][i].length();
+            for (String[] datum : data) {
+                if (datum[i].length() > maxColumnLength) {
+                    maxColumnLength = datum[i].length();
                 }
             }
             columnLengths[i] = maxColumnLength;
         }
+        tableLength = calcTableLength();
     }
 
     public void render(){
@@ -32,53 +34,64 @@ public class Table {
         renderData();
     }
 
+    public int calcTableLength(){
+        int tableLength = 1;
+        for (int columnLength: columnLengths) {
+            for (int i = 0; i <= columnLength + 2; i++){
+                tableLength++;
+            }
+        }
+        return tableLength;
+    }
+
+    public void drawLine(char symbol){
+        System.out.print("\n");
+        for (int i = 0; i < tableLength; i++) {
+            System.out.print(symbol);
+        }
+        System.out.print("\n");
+    }
+
     public void renderHeader(){
-        tableLength = 1;
+        drawLine('+');
         System.out.print("|");
         for (int i = 0; i < header.length; i++) {
             String stringToRender = " " + header[i];
-            tableLength += stringToRender.length();
+            //tableLength += stringToRender.length();
 
             if(alignment == Alignment.LEFT){
                 System.out.print(stringToRender);
             }
             for (int j = 0; j <= columnLengths[i] - header[i].length(); j++) {
                 System.out.print(" ");
-                tableLength++;
+                //tableLength++;
             }
             if(alignment == Alignment.RIGHT){
                 System.out.print(stringToRender);
             }
             System.out.print("|");
-            tableLength++;
+            //tableLength++;
         }
-        System.out.print("\n");
-        for (int i = 0; i < tableLength; i++) {
-            System.out.print("=");
-        }
-        System.out.print("\n");
+
+        drawLine('=');
     }
 
     public void renderData(){
-        for (int i = 0; i < data.length; i++) {
+        for (String[] datum : data) {
             System.out.print("|");
             for (int j = 0; j < data[0].length; j++) {
-                if(alignment == Alignment.LEFT){
-                    System.out.print(" " + data[i][j]);
+                if (alignment == Alignment.LEFT) {
+                    System.out.print(" " + datum[j]);
                 }
-                for (int k = 0; k <= columnLengths[j] - data[i][j].length(); k++) {
+                for (int k = 0; k <= columnLengths[j] - datum[j].length(); k++) {
                     System.out.print(" ");
                 }
-                if(alignment == Alignment.RIGHT){
-                    System.out.print(" " + data[i][j]);
+                if (alignment == Alignment.RIGHT) {
+                    System.out.print(" " + datum[j]);
                 }
                 System.out.print("|");
             }
-            System.out.print("\n");
-            for (int l = 0; l < tableLength; l++) {
-                System.out.print("-");
-            }
-            System.out.print("\n");
+            drawLine('-');
         }
     }
 }
