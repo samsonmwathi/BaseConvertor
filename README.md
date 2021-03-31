@@ -1,13 +1,13 @@
 # BaseConvertor
 A convertor for decimal to any other base system
 # Group Members
-- ####120574 Samson Mwathi
-- ####116814 Tony Mogoa
-- ####121353 Samuel Bryan
-- ####119742 Georgina Njoroge
-#Report
+- #### 120574 Samson Mwathi
+- #### 116814 Tony Mogoa
+- #### 121353 Samuel Bryan
+- #### 119742 Georgina Njoroge
+# Report
 The report is in the pdf named `Assignment #2`.
-#Documentation
+# Documentation
 ### Table Utility
 The Table class provides simple functions to quickly render tables in a CLI program.
 
