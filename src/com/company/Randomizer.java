@@ -3,7 +3,7 @@ import java.util.*;
 import java.text.DecimalFormat;
 public class Randomizer {
 
-    public static void main (String[] arg){
+    public void random (String[] arg){
 
         //Used the Random Class
         Random rand = new Random();
@@ -12,7 +12,7 @@ public class Randomizer {
         DecimalFormat final_val  =  new DecimalFormat("#.###");
 
         //Then used a simple for loop to loop it to 30
-for(int count = 1; count <= 30; count++) {
+        for(int count = 1; count <= 30; count++) {
 
             //Set a starting point for the Randomization
         float min = 1;
